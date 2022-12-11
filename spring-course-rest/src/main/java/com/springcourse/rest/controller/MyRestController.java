@@ -34,20 +34,4 @@ public class MyRestController {
 
         return employee;
     }
-
-    @ExceptionHandler
-    public ResponseEntity<EmployeeInCorrectData> handleException(NoSuchEmployeeException exception){
-        EmployeeInCorrectData data = new EmployeeInCorrectData();
-        data.setInfo(exception.getMessage());
-
-        return new ResponseEntity<>(data, HttpStatus.NOT_FOUND);
-    }
-
-    @ExceptionHandler
-    public ResponseEntity<EmployeeInCorrectData> handleException(Exception exception){
-        EmployeeInCorrectData data = new EmployeeInCorrectData();
-        data.setInfo(exception.getMessage());
-
-        return new ResponseEntity<>(data, HttpStatus.BAD_REQUEST);
-    }
 }
