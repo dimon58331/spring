@@ -28,8 +28,7 @@ public class MyRestController {
 
         Employee employee = employeeService.getEmployeeById(id);
         if (employee == null) {
-            throw new NoSuchEmployeeException("There is no employee with id = " + id
-                    + " in Database");
+            throw new NoSuchEmployeeException("There is no employee with id = " + id + " in Database");
         }
 
         return employee;
@@ -47,5 +46,17 @@ public class MyRestController {
         employeeService.saveEmployee(employee);
 
         return employee;
+    }
+
+    @DeleteMapping("/employees/{id}")
+    public String deleteEmployee(@PathVariable int id){
+
+        if(employeeService.getEmployeeById(id) == null){
+            throw new NoSuchEmployeeException("There is no employee with id = " + id + " in Database");
+        }
+
+        employeeService.deleteEmployee(id);
+
+        return "Employee with ID = " + id + " was deleted";
     }
 }
