@@ -1,12 +1,9 @@
  package com.springcourse.rest.controller;
 
 import com.springcourse.rest.entity.Employee;
-import com.springcourse.rest.exception_handling.EmployeeInCorrectData;
 import com.springcourse.rest.exception_handling.NoSuchEmployeeException;
 import com.springcourse.rest.service.IEmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -55,7 +52,7 @@ public class MyRestController {
             throw new NoSuchEmployeeException("There is no employee with id = " + id + " in Database");
         }
 
-        employeeService.deleteEmployee(id);
+        employeeService.deleteEmployeeById(id);
 
         return "Employee with ID = " + id + " was deleted";
     }
