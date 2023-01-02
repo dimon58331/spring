@@ -1,0 +1,47 @@
+plugins {
+    id 'java'
+    id 'war'
+}
+
+group 'com.spring.security'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+
+    // https://mvnrepository.com/artifact/org.springframework/spring-webmvc
+    implementation 'org.springframework:spring-webmvc:5.3.24'
+
+    // https://mvnrepository.com/artifact/org.springframework.security/spring-security-web
+    implementation 'org.springframework.security:spring-security-web:5.7.3'
+
+    // https://mvnrepository.com/artifact/org.springframework.security/spring-security-config
+    implementation 'org.springframework.security:spring-security-config:5.7.3'
+
+    // https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api
+    compileOnly 'javax.servlet:javax.servlet-api:4.0.1'
+
+    // https://mvnrepository.com/artifact/javax.servlet/jstl
+    implementation 'javax.servlet:jstl:1.2'
+
+    // https://mvnrepository.com/artifact/org.springframework.security/spring-security-taglibs
+    implementation 'org.springframework.security:spring-security-taglibs:5.7.3'
+
+    // https://mvnrepository.com/artifact/com.mchange/c3p0
+    implementation 'com.mchange:c3p0:0.9.5.5'
+
+    // https://mvnrepository.com/artifact/mysql/mysql-connector-java
+    implementation 'mysql:mysql-connector-java:8.0.30'
+
+
+
+}
+
+test {
+    useJUnitPlatform()
+}
