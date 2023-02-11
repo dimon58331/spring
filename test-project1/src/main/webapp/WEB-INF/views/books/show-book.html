@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Show a book</title>
+</head>
+<body>
+<div th:object="${book}">
+  <h4 th:text="'Book name: ' + *{bookName}"/>
+  <h4 th:text="'Author: ' + *{author}"/>
+  <h4 th:text="'Release year: ' + *{releaseYear}"/>
+</div>
+
+<div th:unless="${person.personId}">
+  <hr/>
+  <p style="font-size: 12pt; font-weight: bold" th:text="'This book is free. Will choose the person!'"/>
+  <form th:action="@{/books/add-book-to-person}" th:object="${person}" th:method="post">
+
+    <select th:field="*{personId}">
+      <option th:each="_person : ${people}" th:value="${_person.personId}"
+              th:text="${_person.name} + ' ' + ${_person.surname} + ' ' + ${_person.patronymic}"/>
+    </select>
+
+    <input hidden="hidden" type="text" th:field="${book.bookId}"/>
+
+    <input type="submit" value="Add book to person!">
+  </form>
+  <br/>
+  <hr/>
+</div>
+<div th:if="${person.personId}">
+  <hr/>
+  <form th:action="@{/books/remove-book-from-person}" th:object="${person}" th:method="delete">
+    <input hidden="hidden" type="text" th:field="${book.bookId}"/>
+    <i style="font-size: 12pt"
+       th:text="'This book is taken by '+ *{name} + ' ' + *{surname} + ' ' + *{patronymic} + '!'"/>
+    <input type="submit" value="Remove a book!">
+  </form>
+  <hr/>
+</div>
+<form th:object="${book}" th:action="@{/books/{id}/edit(id=*{bookId})}">
+  <input type="submit" value="Update!"/>
+</form>
+<br/>
+<form th:object="${book}" th:action="@{/books/{id}(id=*{bookId})}" th:method="delete">
+  <input type="submit" value="Delete!"/>
+</form>
+<br/>
+<form th:action="@{/books}">
+  <input type="submit" value="Back!"/>
+</form>
+</body>
+</html>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>People</title>
+</head>
+<body>
+<div style=" margin-bottom: 8pt;" th:each="person : ${people}">
+    <a style="font-size: 12pt; color: black;"
+       th:href="@{/people/{id}(id=${person.personId})}" th:text="${person.name}
+     + ' ' + ${person.surname} + ' '+ ${person.patronymic} + ', ' + ${person.year}"/>
+</div>
+<hr/>
+<form th:action="@{/people/new}">
+    <input type="submit" value="Create a new person!"/>
+</form>
+<br/>
+<form th:action="@{/books}">
+    <input type="submit" value="Go to page of books!"/>
+</form>
+</body>
+</html>

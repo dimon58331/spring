@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit the person</title>
+</head>
+<body>
+<form th:action="@{/people}" th:object="${person}" th:method="patch">
+  <label>Enter the name: </label>
+  <input hidden="hidden" type="text" th:field="*{personId}"/>
+  <input type="text" th:field="*{name}"/>
+    <br/><br/>
+  <label>Enter the surname: </label>
+  <input type="text" th:field="*{surname}"/>
+    <br/><br/>
+  <label>Enter the patronymic: </label>
+  <input type="text" th:field="*{patronymic}"/>
+    <br/><br/>
+  <label>Enter the year of birth: </label>
+  <input type="text" th:field="*{year}"/>
+    <br/>
+    <hr/>
+  <input type="submit" value="Update!"/>
+</form>
+<br/>
+<form th:object="${person}" th:action="@{/people/{id}(id=*{personId})}">
+  <input type="submit" value="Back!">
+</form>
+</body>
+</html>
