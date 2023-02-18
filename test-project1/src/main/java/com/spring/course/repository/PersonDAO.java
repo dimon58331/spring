@@ -45,9 +45,9 @@ public class PersonDAO {
     }
 
     public Optional<Person> findByBookId(int bookId){
-        return jdbcTemplate.query("SELECT * FROM Person WHERE person_id = " +
-                        "(SELECT Person.person_id FROM Person JOIN Book ON Book.person_id=Person.person_id " +
-                        "WHERE Book.book_id=?)", new PersonMapper(), bookId)
+        return jdbcTemplate.query("SELECT Person.* FROM Person " +
+                        "JOIN Book ON Book.person_id=Person.person_id WHERE Book.book_id=?"
+                        , new PersonMapper(), bookId)
                 .stream().findAny();
     }
 }

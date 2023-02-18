@@ -43,8 +43,8 @@ public class BookDAO {
 
     public List<Book> findAllByPersonId(int personId){
         return jdbcTemplate
-                .query("SELECT * FROM Book WHERE book_id in (SELECT Book.book_id FROM Book JOIN Person " +
-                                "ON Book.person_id=Person.person_id WHERE Person.person_id=?)"
+                .query("SELECT Book.* FROM Book JOIN Person " +
+                                "ON Book.person_id=Person.person_id WHERE Person.person_id=?"
                 , new BookMapper(), personId);
     }
 

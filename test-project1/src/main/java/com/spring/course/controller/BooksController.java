@@ -4,11 +4,14 @@ import com.spring.course.entity.Book;
 import com.spring.course.entity.Person;
 import com.spring.course.repository.BookDAO;
 import com.spring.course.repository.PersonDAO;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.io.IOException;
 import java.util.Optional;
 
@@ -58,7 +61,11 @@ public class BooksController {
     }
 
     @PatchMapping()
-    public String patchUpdateBook(@ModelAttribute("book") Book book){
+    public String patchUpdateBook(@ModelAttribute("book") @Valid Book book, BindingResult bindingResult){
+        if (bindingResult.hasErrors()){
+            return "books/edit-book";
+        }
+
         bookDAO.update(book);
         return "redirect:/books/" + book.getBookId();
     }

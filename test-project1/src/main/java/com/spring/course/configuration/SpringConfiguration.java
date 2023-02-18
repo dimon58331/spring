@@ -39,6 +39,7 @@ public class SpringConfiguration implements WebMvcConfigurer {
         templateResolver.setApplicationContext(applicationContext);
         templateResolver.setPrefix("/WEB-INF/views/");
         templateResolver.setSuffix(".html");
+        templateResolver.setCharacterEncoding("UTF-8");
 
         return templateResolver;
     }
@@ -57,6 +58,7 @@ public class SpringConfiguration implements WebMvcConfigurer {
         ThymeleafViewResolver thymeleafViewResolver = new ThymeleafViewResolver();
         thymeleafViewResolver.setTemplateEngine(templateEngine());
         registry.viewResolver(thymeleafViewResolver);
+        thymeleafViewResolver.setCharacterEncoding("UTF-8");
     }
 
     @Bean
@@ -67,6 +69,7 @@ public class SpringConfiguration implements WebMvcConfigurer {
         dataSource.setUrl(environment.getProperty("db.url"));
         dataSource.setUsername(environment.getProperty("db.username"));
         dataSource.setPassword(environment.getProperty("db.password"));
+
 
         return dataSource;
     }

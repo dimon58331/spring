@@ -1,9 +1,19 @@
 package com.spring.course.entity;
 
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
+
 public class Book {
     private int bookId;
+    @NotEmpty(message = "The field must be filled in!")
+    @Size(max = 110, message = "The author's name must consist of less than 110 characters!")
     private String author;
+    @NotEmpty(message = "The field must be filled in!")
+    @Size(max = 30, message = "The book's name must consist of less than 30 characters!")
     private String bookName;
+    @NotEmpty(message = "The field must be filled in!")
+    @DecimalMin(value = "2000", message = "The field must be greater than 2000!")
     private int releaseYear;
 
     public Book() {

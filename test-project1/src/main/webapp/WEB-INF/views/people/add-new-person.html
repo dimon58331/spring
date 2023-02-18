@@ -6,17 +6,21 @@
 </head>
 <body>
 <form th:action="@{/people}" th:object="${person}" method="POST">
-  <label>Enter the name: </label>
-  <input type="text" th:field="${person.name}"/>
+  <label for="name">Enter the name: </label>
+  <input type="text" th:field="*{name}" id="name"/>
+  <div style="color:red" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Error name</div>
     <br/><br/>
-  <label>Enter the surname: </label>
-  <input type="text" th:field="${person.surname}"/>
+  <label for="surname">Enter the surname: </label>
+  <input type="text" th:field="*{surname}" id="surname"/>
+  <div style="color:red" th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}">Error surname</div>
     <br/><br/>
-  <label>Enter the patronymic: </label>
-  <input type="text" th:field="${person.patronymic}"/>
+  <label for="patronymic">Enter the patronymic: </label>
+  <input type="text" th:field="*{patronymic}" id="patronymic"/>
+  <div style="color:red" th:if="${#fields.hasErrors('patronymic')}" th:errors="*{patronymic}">Error patronymic</div>
     <br/><br/>
-  <label>Enter the year of birth: </label>
-  <input type="text" th:field="${person.year}"/>
+  <label for="year_of_birth">Enter the year of birth: </label>
+  <input type="text" th:field="*{year}" id="year_of_birth"/>
+  <div style="color:red" th:if="${#fields.hasErrors('year')}" th:errors="*{year}">Error year of birth</div>
     <br/>
     <hr/>
   <input type="submit" value="Add!"/>

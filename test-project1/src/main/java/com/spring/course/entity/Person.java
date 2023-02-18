@@ -1,12 +1,23 @@
 package com.spring.course.entity;
 
-import java.util.List;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 public class Person {
     private int personId;
+
+    @NotEmpty(message = "The field must be filled in!")
+    @Size(max = 30, message = "The person's name must consist of less than 30 characters!")
     private String name;
+    @NotEmpty(message = "The field must be filled in!")
+    @Size(max = 50, message = "The person's surname must consist of less than 50 characters!")
     private String surname;
+    @NotEmpty(message = "The field must be filled in!")
+    @Size(max = 30, message = "The person's patronymic must consist of less than 30 characters!")
     private String patronymic;
+
+    @DecimalMin(value = "1930", message = "The field must be greater than 0!")
     private int year;
 
     public Person() {
