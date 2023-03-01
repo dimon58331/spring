@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Information about person</title>
+</head>
+<body>
+<div th:object="${person}">
+    <h3>Information about person:</h3>
+    <h4 th:text="'Name: ' + *{name}"/>
+    <h4 th:text="'Surname: ' + *{surname}"/>
+    <h4 th:text="'Patronymic: ' + *{patronymic}"/>
+    <h4 th:text="'Year of birth: ' + *{year}"/>
+</div>
+<div th:if="${#lists.isEmpty(books)}">
+    <hr/>
+    <i style="font-size: 12pt" th:text="'The person doesnt have any books'"/>
+    <br/>
+    <hr/>
+</div>
+<div th:unless="${#lists.isEmpty(books)}">
+    <hr/>
+    <p style="font-size: 14pt; font-weight: bold" th:text="'The person has the next books: '"/>
+    <div th:each="book : ${books}">
+        <i style="padding-left: 12pt; font-size: 14pt"  th:text="${book.bookName} + ', ' + ${book.author} +', ' + ${book.releaseYear}"/>
+    </div>
+    <br/>
+    <hr/>
+</div>
+<form th:object="${person}" th:action="@{/people/{id}/edit(id=*{id})}">
+    <input type="submit" value="Update!">
+</form>
+<br/>
+<form th:object="${person}" th:action="@{/people/{id}(id=*{id})}" th:method="delete">
+    <input type="submit" value="Delete!">
+</form>
+<br/>
+<form th:action="@{/people}">
+    <input type="submit" value="Back!">
+</form>
+</body>
+</html>

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Show people</title>
+</head>
+<body>
+  <div th:each="person : ${people}">
+    <a style="color: black" th:href="@{/people/{id}(id=${person.id})}" th:text="${person.name}"/>
+  </div>
+  <hr/>
+  <div>
+    <form th:action="@{/people/new}" th:method="get">
+      <input type="submit" value="Create a new person">
+    </form>
+  </div>
+</body>
+</html>
