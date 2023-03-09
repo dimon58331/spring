@@ -1,6 +1,5 @@
 package com.spring.security.spring_security.controller;
 
-import com.spring.security.spring_security.entity.Person;
 import com.spring.security.spring_security.security.PersonDetails;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
