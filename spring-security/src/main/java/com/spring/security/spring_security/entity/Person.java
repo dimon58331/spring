@@ -1,6 +1,7 @@
 package com.spring.security.spring_security.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.NotEmpty;
 
 @Entity
@@ -11,7 +12,7 @@ public class Person {
     @Column(name = "id")
     private int id;
 
-    @NotEmpty
+    @DecimalMin(value = "1990")
     @Column(name = "year_of_birth")
     private int yearOfBirth;
 

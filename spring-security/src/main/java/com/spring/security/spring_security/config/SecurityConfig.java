@@ -1,7 +1,7 @@
 package com.spring.security.spring_security.config;
 
 //import com.spring.security.spring_security.security.AuthProviderImpl;
-import com.spring.security.spring_security.security.PersonDetailsService;
+import com.spring.security.spring_security.service.PersonDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -42,7 +42,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf().disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/auth/login", "/error").permitAll()
+                .requestMatchers("/auth/login", "/error", "/auth/registration").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().loginPage("/auth/login")
