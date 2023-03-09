@@ -25,7 +25,7 @@ public class PersonValidator implements Validator {
     @Override
     public void validate(Object target, Errors errors) {
         try {
-            personService.findByUsername(((Person) target).getUsername());
+            Person person = personService.findByUsername(((Person) target).getUsername());
             errors.rejectValue("username", "", "User with this username exists");
         }catch (UsernameNotFoundException ignored){
         }
