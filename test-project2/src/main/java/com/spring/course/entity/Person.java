@@ -3,11 +3,11 @@ package com.spring.course.entity;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "Person")
@@ -40,7 +40,7 @@ public class Person {
 
     @Column(name = "date_of_created")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date dateOfCreated;
+    private Date dateOfCreation;
 
     @OneToMany(mappedBy = "person")
     private List<Book> books;
@@ -56,7 +56,8 @@ public class Person {
                 ", surname='" + surname + '\'' +
                 ", patronymic='" + patronymic + '\'' +
                 ", dateOfBirth=" + dateOfBirth +
-                ", dateOfCreated=" + dateOfCreated +
+                ", dateOfCreation=" + dateOfCreation +
+                ", books=" + books +
                 '}';
     }
 
@@ -100,12 +101,12 @@ public class Person {
         this.dateOfBirth = dateOfBirth;
     }
 
-    public Date getDateOfCreated() {
-        return dateOfCreated;
+    public Date getDateOfCreation() {
+        return dateOfCreation;
     }
 
-    public void setDateOfCreated(Date dateOfCreated) {
-        this.dateOfCreated = dateOfCreated;
+    public void setDateOfCreation(Date dateOfCreated) {
+        this.dateOfCreation = dateOfCreated;
     }
 
     public List<Book> getBooks() {

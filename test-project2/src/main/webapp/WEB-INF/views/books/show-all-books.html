@@ -7,16 +7,20 @@
 <body>
 <div style=" margin-bottom: 8pt;" th:each="book : ${books}">
     <a style="font-size: 12pt; color: black;"
-       th:href="@{/books/{id}(id=${book.bookId})}"
-       th:text="${book.bookName} + ', ' + ${book.author} + ', ' + ${book.releaseYear}"/>
+       th:href="@{/books/{id}(id=${book.id})}"
+       th:text="${book.bookName} + ', ' + ${book.author} + ', ' + ${book.dateOfRelease}"/>
 </div>
 <hr/>
 <form th:action="@{/books/new}">
-  <input type="submit" value="Add a new book!"/>
+  <input type="submit" value="Add a new book"/>
+</form>
+<br/>
+<form th:action="@{/books/search}">
+    <input type="submit" value="Go to search for a book"/>
 </form>
 <br/>
 <form th:action="@{/people}">
-  <input type="submit" value="Go to page of people!"/>
+  <input type="submit" value="Go to page of people"/>
 </form>
 </body>
 </html>

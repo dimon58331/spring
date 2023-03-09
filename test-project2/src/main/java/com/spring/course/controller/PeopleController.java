@@ -11,18 +11,17 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Optional;
 
 @Controller
 @RequestMapping("/people")
 public class PeopleController {
-
-    private final BooksService booksService;
     private final PeopleService peopleService;
 
     @Autowired
-    public PeopleController(BooksService booksService, PeopleService peopleService) {
-        this.booksService = booksService;
+    public PeopleController(PeopleService peopleService) {
         this.peopleService = peopleService;
     }
 
@@ -46,17 +45,15 @@ public class PeopleController {
 
     @GetMapping("/{id}/edit")
     public String editPerson(@PathVariable("id") int id, Model model) throws IOException {
-        Optional<Person> person = peopleService.findById(id);
-        if (person.isEmpty()){
-            throw new IOException("Invalid id!");
-        }
+        Person person = peopleService.findById(id);
 
-        model.addAttribute("person", person.get());
+        model.addAttribute("person", person);
         return "people/edit-person";
     }
 
-    @PatchMapping()
-    public String patchEditPerson(@ModelAttribute("person") @Valid Person person, BindingResult bindingResult){
+    @PatchMapping("/{id}")
+    public String patchEditPerson(@ModelAttribute("person") @Valid Person person, BindingResult bindingResult)
+            throws IOException {
         if (bindingResult.hasErrors()){
             return "people/edit-person";
         }
@@ -68,13 +65,10 @@ public class PeopleController {
 
     @GetMapping("/{id}")
     public String showPersonById(@PathVariable("id") int id, Model model) throws IOException {
-        Optional<Person> person = peopleService.findById(id);
-        if (person.isEmpty()){
-            throw new IOException("Invalid id!");
-        }
+        Person person = peopleService.findById(id);
 
-        model.addAttribute("person", person.get());
-        model.addAttribute("books", person.get().getBooks());
+        model.addAttribute("person", person);
+        model.addAttribute("books", person.getBooks());
 
         return "people/show-person";
     }

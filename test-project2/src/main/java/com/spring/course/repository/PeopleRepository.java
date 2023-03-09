@@ -10,5 +10,5 @@ import java.util.Optional;
 
 @Repository
 public interface PeopleRepository extends JpaRepository<Person, Integer> {
-    public List<Person> findByBooks(List<Book> books);
+    public List<Person> findByBooks(Book book);
 }

@@ -18,16 +18,16 @@
   <input type="text" th:field="*{patronymic}" id="patronymic"/>
   <div style="color:red" th:if="${#fields.hasErrors('patronymic')}" th:errors="*{patronymic}">Error patronymic</div>
     <br/><br/>
-  <label for="year_of_birth">Enter the year of birth: </label>
-  <input type="text" th:field="*{year}" id="year_of_birth"/>
-  <div style="color:red" th:if="${#fields.hasErrors('year')}" th:errors="*{year}">Error year of birth</div>
+  <label for="year_of_birth">Enter the year of birth (dd/mm/yyyy): </label>
+  <input type="text" th:field="*{dateOfBirth}" id="year_of_birth"/>
+  <div style="color:red" th:if="${#fields.hasErrors('dateOfBirth')}" th:errors="*{dateOfBirth}">Error year of birth</div>
     <br/>
     <hr/>
-  <input type="submit" value="Add!"/>
+  <input type="submit" value="Add"/>
 </form>
 <br/>
 <form th:action="@{/people}">
-    <input type="submit" value="Back!">
+    <input type="submit" value="Go back">
 </form>
 </body>
 </html>

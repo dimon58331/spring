@@ -14,18 +14,18 @@
   <input type="text" th:field="*{author}" id="author"/>
   <div style="color:red" th:if="${#fields.hasErrors('author')}" th:errors="*{author}">Error author</div>
     <br/></br>
-  <label for="release_year">Enter the release year of book: </label>
-  <input type="text" th:field="*{releaseYear}" id="release_year"/>
-  <div style="color:red" th:if="${#fields.hasErrors('releaseYear')}" th:errors="*{releaseYear}">
+  <label for="release_year">Enter the date of book release (dd/mm/yyyy): </label>
+  <input type="text" th:field="*{dateOfRelease}" id="release_year"/>
+  <div style="color:red" th:if="${#fields.hasErrors('dateOfRelease')}" th:errors="*{dateOfRelease}">
     Error release of year
   </div>
     <br/>
     <hr/>
-  <input type="submit" value="Add!">
+  <input type="submit" value="Add">
 </form>
 <br/>
 <form th:action="@{/books}">
-  <input type="submit" value="Back!">
+  <input type="submit" value="Go back">
 </form>
 </body>
 </html>

@@ -4,13 +4,14 @@ import com.spring.course.entity.Book;
 import com.spring.course.entity.Person;
 import com.spring.course.repository.BooksRepository;
 import com.spring.course.repository.PeopleRepository;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
+import java.io.IOException;
+import java.util.*;
+import java.util.logging.Logger;
 
 @Service
 @Transactional(readOnly = true)
@@ -28,12 +29,23 @@ public class PeopleService {
         return peopleRepository.findAll();
     }
 
-    public Optional<Person> findById(int id){
-        return peopleRepository.findById(id);
+    public Person findById(int id) throws IOException {
+        Optional<Person> person = peopleRepository.findById(id);
+        if (person.isEmpty()){
+            throw new IOException("Invalid id!");
+        }
+        Hibernate.initialize(person.get().getBooks());
+
+        person.get().getBooks().forEach((book -> {
+            long timeOfOut = Math.abs(book.getDateOfTaken().getTime() - new Date().getTime());
+            book.setTimeOut(timeOfOut > 864000000);
+        }));
+
+        return person.get();
     }
 
     public Person findByBook(Book book){
-        List<Person> people = peopleRepository.findByBooks(Collections.singletonList(book));
+        List<Person> people = peopleRepository.findByBooks(book);
         return people.isEmpty() ? new Person() : people.get(0);
     }
 
@@ -44,20 +56,21 @@ public class PeopleService {
 
     @Transactional
     public void save(Person person){
+        person.setDateOfCreation(new Date());
         peopleRepository.save(person);
     }
 
     @Transactional
-    public void update(Person person){
+    public void update(Person person) throws IOException {
+        person.setDateOfCreation(peopleRepository.findById(person.getId()).orElseThrow(IOException::new)
+                .getDateOfCreation());
         peopleRepository.save(person);
     }
 
     @Transactional
-    public void removeBook(Book book){
-        Person person = peopleRepository.findByBooks(Collections.singletonList(book)).get(0);
-
-        person.getBooks().remove(book);
-        //for Hibernate cache ???
-        book.setPerson(null);
+    public void removeBook(Book book) throws IOException {
+        Book filledBook = booksRepository.findById(book.getId()).orElseThrow(IOException::new);
+        filledBook.setPerson(null);
+        filledBook.setDateOfTaken(null);
     }
 }

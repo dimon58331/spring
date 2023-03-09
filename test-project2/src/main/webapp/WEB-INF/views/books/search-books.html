@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Search books</title>
+</head>
+<body>
+<div>
+    <form th:action="@{/books/search}">
+        <label for="search-input" th:text="'Enter the book name: '"/>
+        <input type="text" id="search-input" th:name="bookName"/>
+
+        <input type="submit" value="Search!">
+    </form>
+</div>
+<div th:if="${booksContainingName}">
+    <hr/>
+    <div th:unless="${#lists.isEmpty(booksContainingName)}" th:each="book : ${booksContainingName}">
+        <div>
+            <span th:text="${book.bookName} + ', ' + ${book.author} + ', ' + ${book.dateOfRelease}"/>
+        </div>
+        <br/>
+        <div th:unless="${book.getPerson()}">
+            <span style="font-size: 12pt; font-weight: bold" th:text="'This book is free.'"/>
+        </div>
+        <div th:if="${book.getPerson()}" th:with="person = ${book.getPerson()}">
+            <span th:style="${book.isTimeOut()} ? 'color: red; font-size: 12pt; font-weight: bold'
+                                                : 'font-size: 12pt; font-weight: bold'"
+                  th:text="'This book is taken by ' + ${person.surname} + ' ' + ${person.name} + ' ' + ${person.patronymic}"
+            />
+        </div>
+        <hr/>
+    </div>
+    <div th:if="${#lists.isEmpty(booksContainingName)}">
+        <span style="font-size: 12pt; font-weight: bold" th:text="'The book doesnt find!'"/>
+        <hr/>
+    </div>
+</div>
+<div th:unless="${booksContainingName}">
+    <hr/>
+</div>
+<div>
+    <form th:action="@{/books}">
+        <input type="submit" value="Go back">
+    </form>
+</div>
+</body>
+</html>

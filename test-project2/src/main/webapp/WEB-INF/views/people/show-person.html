@@ -10,7 +10,8 @@
     <h4 th:text="'Name: ' + *{name}"/>
     <h4 th:text="'Surname: ' + *{surname}"/>
     <h4 th:text="'Patronymic: ' + *{patronymic}"/>
-    <h4 th:text="'Year of birth: ' + *{year}"/>
+    <h4 th:text="'Year of birth: ' + *{dateOfBirth}"/>
+    <h4 th:text="'Date of creation: ' + *{dateOfCreation}"/>
 </div>
 <div th:if="${#lists.isEmpty(books)}">
     <hr/>
@@ -22,21 +23,23 @@
     <hr/>
     <p style="font-size: 14pt; font-weight: bold" th:text="'The person has the next books: '"/>
     <div th:each="book : ${books}">
-        <i style="padding-left: 12pt; font-size: 14pt"  th:text="${book.bookName} + ', ' + ${book.author} +', ' + ${book.releaseYear}"/>
+        <i th:style="${book.isTimeOut()} ? 'padding-left: 12pt; font-size: 14pt; color: red;'
+            : 'padding-left: 12pt; font-size: 14pt'"
+           th:text="${book.bookName} + ', ' + ${book.author} +', ' + ${book.dateOfRelease}"/>
     </div>
     <br/>
     <hr/>
 </div>
 <form th:object="${person}" th:action="@{/people/{id}/edit(id=*{id})}">
-    <input type="submit" value="Update!">
+    <input type="submit" value="Edit">
 </form>
 <br/>
 <form th:object="${person}" th:action="@{/people/{id}(id=*{id})}" th:method="delete">
-    <input type="submit" value="Delete!">
+    <input type="submit" value="Delete">
 </form>
 <br/>
 <form th:action="@{/people}">
-    <input type="submit" value="Back!">
+    <input type="submit" value="Go back">
 </form>
 </body>
 </html>

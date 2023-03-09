@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.io.IOException;
-import java.util.Optional;
+import java.util.List;
+import java.util.Objects;
+import java.util.logging.Logger;
 
 @Controller
 @RequestMapping("/books")
@@ -28,8 +30,9 @@ public class BooksController {
     }
 
     @GetMapping()
-    public String getShowAllBooks(Model model){
-        model.addAttribute("books", booksService.findAll());
+    public String getShowAllBooks(@RequestParam(value = "page", required = false) Integer page
+            , @RequestParam(value = "sortBy", required = false) String sortBy, Model model){
+        model.addAttribute("books", booksService.findAll(page, sortBy));
 
         return "books/show-all-books";
     }
@@ -41,6 +44,20 @@ public class BooksController {
         return "books/add-new-book";
     }
 
+    @GetMapping("/search")
+    public String getAllBooksWithSearch(@RequestParam(value = "bookName", required = false) String bookName
+            , Model model){
+        if (Objects.isNull(bookName) || bookName.isEmpty()){
+            model.addAttribute("booksContainingName",null);
+            return "books/search-books";
+        }
+
+        List<Book> booksContainingName = booksService.findAllByBookNameContainingIgnoreCase(bookName);
+        model.addAttribute("booksContainingName", booksContainingName);
+
+        return "books/search-books";
+    }
+
     @PostMapping()
     public String postAddNewBook(@ModelAttribute("book") Book book){
         booksService.save(book);
@@ -50,19 +67,17 @@ public class BooksController {
 
     @GetMapping("/{id}/edit")
     public String getUpdateBook(@PathVariable int id, Model model) throws IOException {
-        Optional<Book> book = booksService.findById(id);
-        if (book.isEmpty()){
-            throw new IOException("Invalid id");
-        }
+        Book book = booksService.findById(id);
 
-        model.addAttribute("book", book.get());
+        model.addAttribute("book", book);
 
         return "books/edit-book";
     }
 
     // add /{id} in the controller and remove hidden input from view
-    @PatchMapping()
-    public String patchUpdateBook(@ModelAttribute("book") @Valid Book book, BindingResult bindingResult){
+    @PatchMapping("/{id}")
+    public String patchUpdateBook(@ModelAttribute("book") @Valid Book book, BindingResult bindingResult)
+            throws IOException {
         if (bindingResult.hasErrors()){
             return "books/edit-book";
         }
@@ -80,15 +95,11 @@ public class BooksController {
 
     @GetMapping("/{id}")
     public String getShowBook(@PathVariable int id, Model model) throws IOException {
-        Optional<Book> book = booksService.findById(id);
+        Book book = booksService.findById(id);
 
-        if (book.isEmpty()){
-            throw new IOException("Invalid id");
-        }
+        Person person = peopleService.findByBook(book);
 
-        Person person = peopleService.findByBook(book.get());
-
-        model.addAttribute("book", book.get());
+        model.addAttribute("book", book);
         model.addAttribute("person", person);
         model.addAttribute("people", peopleService.findAll());
 
@@ -98,7 +109,12 @@ public class BooksController {
     // add /{id} in the controller and remove hidden input from view, update view action,
     // return in model only id book and person
     @PostMapping("/{id}/add-to-person")
-    public String addBookToPerson(@ModelAttribute("book") Book book, @ModelAttribute("person") Person person){
+    public String addBookToPerson(@ModelAttribute("book") Book book, @ModelAttribute("person") Person person
+            , @PathVariable("id") int id){
+        book.setId(id);
+        Logger.getAnonymousLogger().info("ID from url: " + id);
+        Logger.getAnonymousLogger().info("Book: " + book);
+        Logger.getAnonymousLogger().info("Person: " + person);
         booksService.addPersonByBookId(person, book.getId());
 
         return "redirect:/books/" + book.getId();
@@ -106,7 +122,7 @@ public class BooksController {
 
     // add /{id} in the controller and remove hidden input from view, update view action
     @DeleteMapping ("/{id}/remove-from-person")
-    public String removeBookFromPerson(@ModelAttribute("book") Book book){
+    public String removeBookFromPerson(@ModelAttribute("book") Book book) throws IOException {
         peopleService.removeBook(book);
 
         return "redirect:/books/" + book.getId();

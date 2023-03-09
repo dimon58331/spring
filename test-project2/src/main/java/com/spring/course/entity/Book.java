@@ -6,6 +6,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.util.Date;
+import java.util.Objects;
 
 @Entity
 @Table(name = "Book")
@@ -27,12 +28,12 @@ public class Book {
 
     @Column(name = "date_of_release")
     @Temporal(TemporalType.DATE)
-    @DateTimeFormat(pattern = "yyyy")
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
     private Date dateOfRelease;
 
     @Column(name = "date_of_created")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date dateOfCreated;
+    private Date dateOfCreation;
 
     @Column(name = "date_of_taken")
     @Temporal(TemporalType.TIMESTAMP)
@@ -41,6 +42,9 @@ public class Book {
     @ManyToOne()
     @JoinColumn(name = "person_id", referencedColumnName = "id")
     private Person person;
+
+    @Transient
+    private boolean isTimeOut;
 
     public Book() {
     }
@@ -52,8 +56,10 @@ public class Book {
                 ", author='" + author + '\'' +
                 ", bookName='" + bookName + '\'' +
                 ", dateOfRelease=" + dateOfRelease +
-                ", dateOfCreated=" + dateOfCreated +
+                ", dateOfCreation=" + dateOfCreation +
                 ", dateOfTaken=" + dateOfTaken +
+                ", person=" + person +
+                ", isTimeOut=" + isTimeOut +
                 '}';
     }
 
@@ -89,12 +95,12 @@ public class Book {
         this.dateOfRelease = dateOfRelease;
     }
 
-    public Date getDateOfCreated() {
-        return dateOfCreated;
+    public Date getDateOfCreation() {
+        return dateOfCreation;
     }
 
-    public void setDateOfCreated(Date dateOfCreated) {
-        this.dateOfCreated = dateOfCreated;
+    public void setDateOfCreation(Date dateOfCreated) {
+        this.dateOfCreation = dateOfCreated;
     }
 
     public Date getDateOfTaken() {
@@ -111,5 +117,13 @@ public class Book {
 
     public void setPerson(Person person) {
         this.person = person;
+    }
+
+    public boolean isTimeOut() {
+        return isTimeOut;
+    }
+
+    public void setTimeOut(boolean timeOut) {
+        isTimeOut = timeOut;
     }
 }

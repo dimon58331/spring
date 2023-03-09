@@ -8,15 +8,15 @@
 <div style=" margin-bottom: 8pt;" th:each="person : ${people}">
     <a style="font-size: 12pt; color: black;"
        th:href="@{/people/{id}(id=${person.id})}" th:text="${person.name}
-     + ' ' + ${person.surname} + ' '+ ${person.patronymic} + ', ' + ${person.year}"/>
+     + ' ' + ${person.surname} + ' '+ ${person.patronymic} + ', ' + ${person.dateOfBirth}"/>
 </div>
 <hr/>
 <form th:action="@{/people/new}">
-    <input type="submit" value="Create a new person!"/>
+    <input type="submit" value="Create a new person"/>
 </form>
 <br/>
 <form th:action="@{/books}">
-    <input type="submit" value="Go to page of books!"/>
+    <input type="submit" value="Go to page of books"/>
 </form>
 </body>
 </html>
