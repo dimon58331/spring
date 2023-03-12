@@ -2,6 +2,7 @@ package com.spring.security.spring_security.service;
 
 import com.spring.security.spring_security.entity.Person;
 import com.spring.security.spring_security.repository.PersonRepository;
+import com.spring.security.spring_security.util.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -34,6 +35,7 @@ public class PersonService {
     @Transactional
     public void save(Person person){
         person.setPassword(passwordEncoder.encode(person.getPassword()));
+        person.setRole("ROLE_" + Role.USER);
         personRepository.save(person);
     }
 

@@ -2,6 +2,7 @@ package com.spring.security.spring_security.config;
 
 //import com.spring.security.spring_security.security.AuthProviderImpl;
 import com.spring.security.spring_security.service.PersonDetailsService;
+import com.spring.security.spring_security.util.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -43,8 +44,9 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http     //.csrf().disable()  //disable csrf
                 .authorizeHttpRequests()
+                .requestMatchers("/admin").hasRole(Role.ADMIN.toString())
                 .requestMatchers("/auth/login", "/error", "/auth/registration").permitAll()
-                .anyRequest().authenticated()
+                .anyRequest().hasAnyRole(Role.ADMIN.toString(), Role.USER.toString())
                 .and()
                 .formLogin().loginPage("/auth/login")
                 .loginProcessingUrl("/process_login")
@@ -62,7 +64,8 @@ public class SecurityConfig {
     public AuthenticationManager authenticationManager(HttpSecurity httpSecurity) throws Exception{
         AuthenticationManagerBuilder authenticationManagerBuilder =
                 httpSecurity.getSharedObject(AuthenticationManagerBuilder.class);
-        authenticationManagerBuilder.userDetailsService(personDetailsService);
+        authenticationManagerBuilder.userDetailsService(personDetailsService)
+                .passwordEncoder(passwordEncoder());
 
         return authenticationManagerBuilder.build();
     }
